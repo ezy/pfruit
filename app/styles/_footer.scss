@@ -1,21 +1,4 @@
 .footer-2 {
-    ///////////////////////////////////////////////////////////////////////////////////
-    $base-spacing: 1.5em !default;
-    $base-accent-color: #003A69;
-    $medium-screen: em(640) !default;
-    $large-screen: em(860) !default;
-    ul {
-        margin: 0;
-        padding: 0;
-        line-height: 1.5em;
-    }
-    li {
-        list-style: none;
-    }
-    a {
-        text-decoration: none;
-    }
-    //////////////////////////////////////////////////////////////////////////////////
     $footer-background: $base-accent-color;
     $footer-color: white;
     $footer-link-color: transparentize($footer-color, 0.6);

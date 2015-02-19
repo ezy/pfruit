@@ -7,7 +7,6 @@
  * # ContactCtrl
  * Controller of the pfruitApp
  */
-
 angular.module('pfruitApp')
     .controller('ContactCtrl', function($scope) {
         $scope.awesomeThings = [

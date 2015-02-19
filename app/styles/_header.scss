@@ -1,16 +1,4 @@
 header.navigation {
-  font-family: $serif;
-  ///////////////////////////////////////////////////////////////////////////////////
-  $base-border-color: gainsboro !default;
-  $base-border-radius: 3px !default;
-  $base-accent-color: #477DCA !default;
-  $large-screen: em(860) !default;
-  
-  a {
-    text-decoration: none;
-  }
-  //////////////////////////////////////////////////////////////////////////////////
-
   $navigation-padding: 1em;
   $navigation-background: #007CE0;
   $navigation-color: transparentize(white, 0.3);
@@ -31,6 +19,7 @@ header.navigation {
   min-height: $navigation-height;
   width: 100%;
   z-index: 999;
+  font-family: $serif;
 
   .navigation-wrapper {
     @include clearfix;
