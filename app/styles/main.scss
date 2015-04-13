@@ -59,6 +59,7 @@ hr {
 p {
     color: $base-font-color;
     line-height: $base-line-height;
+    margin-bottom: 20px;
 }
 /* Everything but the jumbotron gets side spacing for mobile first views */
 
@@ -120,6 +121,7 @@ p {
 @media screen and (max-width: 768px) {
     .container {
         max-width: 730px;
+        margin: 20px;
     }
     /* Remove the padding we set earlier */
     
