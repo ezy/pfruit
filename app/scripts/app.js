@@ -1,37 +1,173 @@
-'use strict';
+(function() {
+  var $animate, $container, $message, $paragraph, MESSAGES, animate, initialise, scramble;
 
-/**
- * @ngdoc overview
- * @name pfruitApp
- * @description
- * # pfruitApp
- *
- * Main module of the application.
- */
-angular
-  .module('pfruitApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch'
-  ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .when('/contact', {
-        templateUrl: 'views/contact.html',
-        controller: 'ContactCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
+  MESSAGES = [];
+
+  MESSAGES.push({
+    delay: 0,
+    text: "Incoming transmission..."
   });
+
+  MESSAGES.push({
+    delay: 1200,
+    text: "We have a unique opportunity in this small piece of Godzone down at the bottom of the planet."
+  });
+
+  MESSAGES.push({
+    delay: 4000,
+    text: "What if there was a product that cost nothing to produce except time? And that same product could then be scaled almost infinitely,"
+  });
+
+  MESSAGES.push({
+    delay: 9000,
+    text: "and delivered instantaneously to the customers that are wanting it."
+  });
+
+  MESSAGES.push({
+    delay: 12000,
+    text: "If the customers like the product, they could then effortlessly tell their friends about it with a single click of a mouse."
+  });
+
+  MESSAGES.push({
+    delay: 14000,
+    text: "And those customers make up the largest market place in the world where a niche can be upwards of 3 million people. "
+  });
+
+  MESSAGES.push({
+    delay: 17000,
+    text: "Hell, you'd probably say it's the perfect opportunity for a country like ours down at the bottom of the world."
+  });
+
+  MESSAGES.push({
+    delay: 19000,
+    text: "And you'd be right, it bloody well is. And right now the opportunity, enjoyment and potential financial reward in this industry is pretty astronomical,"
+  });
+
+  MESSAGES.push({
+    delay: 21000,
+    text: "and it's a privelege to be part of it."
+  });
+
+  $container = $("#container");
+
+  $message = $("#message");
+
+  $animate = $("#animate");
+
+  $paragraph = null;
+
+  scramble = function(element, text, options) {
+    var $element, addGlitch, character, defaults, ghostCharacter, ghostCharacters, ghostLength, ghostText, ghosts, glitchCharacter, glitchCharacters, glitchIndex, glitchLength, glitchProbability, glitchText, glitches, i, j, k, letter, object, order, output, parameters, ref, results, settings, shuffle, target, textCharacters, textLength, wrap;
+    defaults = {
+      probability: 0.2,
+      glitches: '-|/\\',
+      blank: '',
+      duration: text.length * 40,
+      ease: 'easeInOutQuad',
+      delay: 0.0
+    };
+    $element = $(element);
+    settings = $.extend(defaults, options);
+    shuffle = function() {
+      if (Math.random() < 0.5) {
+        return 1;
+      } else {
+        return -1;
+      }
+    };
+    wrap = function(text, classes) {
+      return "<span class=\"" + classes + "\">" + text + "</span>";
+    };
+    glitchText = settings.glitches;
+    glitchCharacters = glitchText.split('');
+    glitchLength = glitchCharacters.length;
+    glitchProbability = settings.probability;
+    glitches = (function() {
+      var j, len, results;
+      results = [];
+      for (j = 0, len = glitchCharacters.length; j < len; j++) {
+        letter = glitchCharacters[j];
+        results.push(wrap(letter, 'glitch'));
+      }
+      return results;
+    })();
+    ghostText = $element.text();
+    ghostCharacters = ghostText.split('');
+    ghostLength = ghostCharacters.length;
+    ghosts = (function() {
+      var j, len, results;
+      results = [];
+      for (j = 0, len = ghostCharacters.length; j < len; j++) {
+        letter = ghostCharacters[j];
+        results.push(wrap(letter, 'ghost'));
+      }
+      return results;
+    })();
+    textCharacters = text.split('');
+    textLength = textCharacters.length;
+    order = (function() {
+      results = [];
+      for (var j = 0; 0 <= textLength ? j < textLength : j > textLength; 0 <= textLength ? j++ : j--){ results.push(j); }
+      return results;
+    }).apply(this).sort(this.shuffle);
+    output = [];
+    for (i = k = 0, ref = textLength; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
+      glitchIndex = Math.floor(Math.random() * (glitchLength - 1));
+      glitchCharacter = glitches[glitchIndex];
+      ghostCharacter = ghosts[i] || settings.blank;
+      addGlitch = Math.random() < glitchProbability;
+      character = addGlitch ? glitchCharacter : ghostCharacter;
+      output.push(character);
+    }
+    object = {
+      value: 0
+    };
+    target = {
+      value: 1
+    };
+    parameters = {
+      duration: settings.duration,
+      ease: settings.ease,
+      step: function() {
+        var index, l, progress, ref1;
+        progress = Math.floor(object.value * (textLength - 1));
+        for (i = l = 0, ref1 = progress; 0 <= ref1 ? l <= ref1 : l >= ref1; i = 0 <= ref1 ? ++l : --l) {
+          index = order[i];
+          output[index] = textCharacters[index];
+        }
+        return $element.html(output.join(''));
+      },
+      complete: function() {
+        return $element.html(text);
+      }
+    };
+    return $(object).delay(settings.delay).animate(target, parameters);
+  };
+
+  animate = function() {
+    var data, element, index, j, len, options;
+    for (index = j = 0, len = MESSAGES.length; j < len; index = ++j) {
+      data = MESSAGES[index];
+      element = $paragraph.get(index);
+      element.innerText = '';
+      options = {
+        delay: data.delay
+      };
+      scramble(element, data.text, options);
+    }
+  };
+
+  initialise = function() {
+    var index, j, len, text;
+    $animate.click(animate);
+    for (index = j = 0, len = MESSAGES.length; j < len; index = ++j) {
+      text = MESSAGES[index];
+      $message.append("<p>");
+    }
+    $paragraph = $container.find("p");
+    animate();
+  };
+
+  initialise();
+
+}).call(this);
